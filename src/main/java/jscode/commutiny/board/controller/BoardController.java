@@ -41,8 +41,6 @@ public class BoardController {
 
         Board savedBoard = boardRepository.save(board);
 
-        BoardDto dto = savedBoard.toDto();
-
         return ResponseEntity.ok(savedBoard.toDto());
     }
 
