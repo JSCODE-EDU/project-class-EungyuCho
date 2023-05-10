@@ -1,28 +1,37 @@
-package board.model;
+package jscode.commutiny.board.model;
 
-import board.dto.BoardDto;
+import com.sun.istack.NotNull;
+import jscode.commutiny.board.dto.BoardDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor(force = true)
+@ToString
 @Table(name = "board")
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column
     private String title;
 
+    @NotNull
     @Column
     private String content;
 
-    public Board() { }
-
+    public Board(@NotNull String title, @NotNull String content) {
+        this.title = title;
+        this.content = content;
+    }
     public Board(Builder builder) {
         id = builder.id;
         title = builder.title;
@@ -35,6 +44,7 @@ public class Board {
     }
 
     public BoardDto toDto() {
+
         return BoardDto.builder()
                 .id(id)
                 .title(title)

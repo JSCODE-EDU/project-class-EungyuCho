@@ -1,15 +1,18 @@
-package board.controller;
+package jscode.commutiny.board.controller;
 
-import board.dto.BoardDto;
-import board.model.Board;
-import board.repository.BoardRepository;
-import common.exception.ResourceNotFoundException;
+import jscode.commutiny.board.dto.BoardDto;
+import jscode.commutiny.board.model.Board;
+import jscode.commutiny.board.repository.BoardRepository;
+import jscode.commutiny.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
-@RequestMapping("/boards")
+@RequestMapping("board")
 public class BoardController {
     private final BoardRepository boardRepository;
 
@@ -18,7 +21,31 @@ public class BoardController {
         this.boardRepository = boardRepository;
     }
 
-    // 특정 게시글 조회 API
+    @GetMapping()
+    public ResponseEntity<Iterable<BoardDto>> getBoards() {
+        Iterable<Board> boards = boardRepository.findAll();
+
+        List<BoardDto> boardDtoList = new ArrayList<>();
+        for (Board board : boards) {
+            boardDtoList.add(board.toDto());
+        }
+
+        return ResponseEntity.ok(boardDtoList);
+    }
+
+    @PostMapping()
+    public ResponseEntity<BoardDto> createBoard(@RequestBody BoardDto boardDto) {
+        Board board = new Board();
+        board.setTitle(boardDto.getTitle());
+        board.setContent(boardDto.getContent());
+
+        Board savedBoard = boardRepository.save(board);
+
+        BoardDto dto = savedBoard.toDto();
+
+        return ResponseEntity.ok(savedBoard.toDto());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<BoardDto> getBoard(@PathVariable Long id) throws ResourceNotFoundException {
         Board board = boardRepository.findById(id)
@@ -27,7 +54,6 @@ public class BoardController {
         return ResponseEntity.ok(board.toDto());
     }
 
-    // 특정 게시글 수정 API
     @PutMapping("/{id}")
     public ResponseEntity<BoardDto> updateBoard(@PathVariable Long id, @RequestBody BoardDto boardDto) throws ResourceNotFoundException {
         Board board = boardRepository.findById(id)
@@ -41,7 +67,6 @@ public class BoardController {
         return ResponseEntity.ok(savedBoard.toDto());
     }
 
-    // 특정 게시글 삭제 API
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBoard(@PathVariable Long id) throws ResourceNotFoundException {
         Board board = boardRepository.findById(id)

@@ -1,7 +1,7 @@
 package jscode.commutiny;
 
-import board.model.Board;
-import board.repository.BoardRepository;
+import jscode.commutiny.board.model.Board;
+import jscode.commutiny.board.repository.BoardRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;

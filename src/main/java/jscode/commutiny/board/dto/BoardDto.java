@@ -1,11 +1,13 @@
-package board.dto;
+package jscode.commutiny.board.dto;
 
-import board.model.Board;
+import jscode.commutiny.board.model.Board;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class BoardDto {
 
     private Long id;
@@ -13,6 +15,9 @@ public class BoardDto {
     private String content;
 
     public BoardDto(Builder builder) {
+        id = builder.id;
+        title = builder.title;
+        content = builder.content;
     }
 
     public BoardDto() {
