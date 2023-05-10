@@ -55,7 +55,7 @@ public class BoardControllerTest {
 
         assertEquals(boardList.size(), 2);
 
-        Board found1 = entityManager.find(Board.class, board1.getId());
+        Board found1 = entityManager.find(Board.class, savedBoard1.getId());
         assertNotNull(found1);
         assertEquals(boardList.get(0).getTitle(), found1.getTitle());
         assertEquals(boardList.get(0).getContent(), found1.getContent());

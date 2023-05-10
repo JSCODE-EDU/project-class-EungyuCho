@@ -31,7 +31,6 @@ public class BoardDto {
                 .build();
     }
 
-    // builder
     public static Builder builder() {
         return new Builder();
     }
